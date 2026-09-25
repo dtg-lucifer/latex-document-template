@@ -1,0 +1,162 @@
+% components/codeblock.tex
+% Code blocks, terminal consoles, and syntax highlighting environments.
+% Combines Charlie's listings integration with clean modern borders and styling.
+
+\RequirePackage{listings}
+\RequirePackage{upquote}
+\tcbuselibrary{listings}
+
+%==================================================
+% Listings Styles
+%==================================================
+
+\lstdefinestyle{cmtcodebase}{
+    basicstyle=\ttfamily\footnotesize\color{codeidentifier},
+    keywordstyle=\bfseries\color{codekeyword},
+    commentstyle=\itshape\color{codecomment},
+    stringstyle=\color{codestring},
+    identifierstyle=\color{codeidentifier},
+    numberstyle=\scriptsize\color{codenumber},
+    showstringspaces=false,
+    tabsize=4,
+    columns=fullflexible,
+    keepspaces=true,
+    upquote=true,
+    breaklines=true,
+    breakatwhitespace=false,
+    postbreak=\mbox{\textcolor{codenumber}{$\hookrightarrow$}\space},
+}
+
+\lstdefinestyle{cmtcode}{
+    style=cmtcodebase,
+    numbers=left,
+    numbersep=10pt,
+    xleftmargin=2.5em,
+}
+
+\lstdefinestyle{cmtplaincode}{
+    style=cmtcodebase,
+    numbers=none,
+    xleftmargin=0pt,
+}
+
+\lstdefinestyle{cmtconsole}{
+    style=cmtplaincode,
+    keywordstyle=\color{codeidentifier},
+    commentstyle=\color{codecomment},
+    stringstyle=\color{codeidentifier},
+}
+
+\lstdefinestyle{cmtlatexcode}{
+    style=cmtplaincode,
+    language={[LaTeX]TeX},
+    texcsstyle=*\bfseries\color{codekeyword},
+    keywordstyle=\bfseries\color{codekeyword},
+    commentstyle=\itshape\color{codecomment},
+    moretexcs={
+        Cref,cref,metaname,codeinline,codefile,
+        dfn,dfnc,rmk,qs,nt,thm,cor,mlemma,mer,mprop,clm,wc,pf,sol,solve,
+        callout,takeaway,challengebox,info,warning,danger,tip,highlightbox,
+        metriccard,metricgridthree,keyvaluetwo,keyvalueitem,cardbox,leftbarbox,
+        badge,statusbadge,techtag,protocoltag,mitretag,stepflow,
+        KwIn,KwOut,For,If,Return,tcp
+    },
+    morekeywords={
+        Definition,Lemma,theorem,Remark,question,solution,algorithm,
+        codeblock,plaincodeblock,latexcodeblock,consoleblock,cardbox,leftbarbox,
+        calloutbox,takeawaybox,infobox,warningbox,dangerbox,tipbox
+    },
+}
+
+%==================================================
+% TColorBox Code Box Settings
+%==================================================
+
+\tcbset{
+    cmtcodebox/.style={
+        enhanced,
+        breakable,
+        sharp corners,
+        boxrule=0pt,
+        frame hidden,
+        colback=codebg,
+        colframe=codeframe,
+        coltitle=codeidentifier,
+        fonttitle=\bfseries\sffamily\small,
+        colbacktitle=codegutter,
+        titlerule=0pt,
+        toptitle=4pt,
+        bottomtitle=4pt,
+        lefttitle=10pt,
+        righttitle=10pt,
+        left=8pt,
+        right=8pt,
+        top=6pt,
+        bottom=6pt,
+        boxsep=0pt,
+        before skip=\baselineskip,
+        after skip=\baselineskip,
+        borderline west={2.5pt}{0pt}{codeaccent},
+        segmentation hidden,
+        listing only,
+    },
+}
+
+% 1. Numbered Codeblock with Title and Language
+\newtcblisting{codeblock}[2][]{%
+    cmtcodebox,
+    title={#2},
+    listing options={style=cmtcode,language=#2},
+    #1
+}
+
+% 2. Plain Unnumbered Codeblock
+\newtcblisting{plaincodeblock}[2][]{%
+    cmtcodebox,
+    title={#2},
+    listing options={style=cmtplaincode,language=#2},
+    #1
+}
+
+% 3. LaTeX Syntax Codeblock
+\newtcblisting{latexcodeblock}[1][]{%
+    cmtcodebox,
+    title={LaTeX},
+    listing options={style=cmtlatexcode},
+    #1
+}
+
+% 4. Terminal / Console Block
+\newtcblisting{consoleblock}[1][]{%
+    cmtcodebox,
+    title={Terminal / Console},
+    listing options={style=cmtconsole},
+    borderline west={2.5pt}{0pt}{mygr},
+    #1
+}
+
+% 5. External Code File Listing
+\newtcbinputlisting{\codefile}[3][]{%
+    cmtcodebox,
+    title={#3},
+    listing file={#2},
+    listing options={style=cmtcode,language=#3},
+    #1
+}
+
+% 6. Inline Code Pill
+\DeclareTotalTCBox{\codeinline}{v}{
+    nobeforeafter,
+    tcbox raise base,
+    enhanced,
+    boxrule=0pt,
+    arc=2pt,
+    boxsep=0pt,
+    left=3pt,
+    right=3pt,
+    top=1.5pt,
+    bottom=1.5pt,
+    colback=codebg,
+    colframe=codebg,
+    fontupper=\ttfamily\footnotesize,
+}{#1}

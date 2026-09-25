@@ -1,0 +1,63 @@
+% components/algorithms.tex
+% Algorithm2e pseudocode styling, custom rules, and colored keywords.
+
+\RequirePackage[ruled,vlined,linesnumbered]{algorithm2e}
+\RequirePackage{xcolor}
+
+\newcommand{\cmtalgokw}[1]{\textcolor{algokeyword}{\bfseries\sffamily #1}}
+\newcommand{\cmtalgoarg}[1]{\emph{#1}}
+\newcommand{\cmtalgofunc}[1]{\textsc{#1}}
+\newcommand{\cmtalgodata}[1]{\textsf{#1}}
+\newcommand{\cmtalgonumber}[1]{\textcolor{algonumber}{#1}}
+\newcommand{\mycommfont}[1]{\footnotesize\sffamily\itshape\textcolor{algocomment}{#1}}
+
+\SetAlFnt{\small}
+\SetKwSty{cmtalgokw}
+\SetArgSty{cmtalgoarg}
+\SetFuncSty{cmtalgofunc}
+\SetDataSty{cmtalgodata}
+\SetCommentSty{mycommfont}
+\SetNoFillComment
+\SetNlSty{cmtalgonumber}{\scriptsize\sffamily}{}
+\SetAlgoNlRelativeSize{-1}
+\SetAlgoInsideSkip{smallskip}
+\SetAlgoSkip{medskip}
+\SetAlgoHangIndent{1.2em}
+\SetAlCapFnt{\small\sffamily\bfseries}
+\SetAlCapNameFnt{\small\sffamily}
+\SetAlgoCaptionSeparator{:}
+\setlength{\algoheightrule}{0.6pt}
+\setlength{\algotitleheightrule}{0.6pt}
+\setlength{\interspacetitleruled}{4pt}
+\setlength{\interspacealgoruled}{4pt}
+
+\makeatletter
+\newcommand{\cmtalgohline}[2]{%
+    \begingroup\color{algorule}\hrule width#1 height#2 depth0pt\endgroup}
+\renewcommand{\algocf@Hlne}{%
+    \begingroup\color{algorule}\hrule height 0.4pt depth0pt width .5em\endgroup}
+\renewcommand{\algocf@Vline}[1]{%
+    \strut\par\nointerlineskip
+    \algocf@push{\skiprule}%
+    \hbox{{\color{algorule}\vrule}%
+        \vtop{\algocf@push{\skiptext}%
+            \vtop{\algocf@addskiptotal #1}\Hlne}}\vskip\skiphlne
+    \algocf@pop{\skiprule}%
+    \nointerlineskip}
+\renewcommand{\algocf@Vsline}[1]{%
+    \strut\par\nointerlineskip
+    \algocf@bblockcode
+    \algocf@push{\skiprule}%
+    \hbox{{\color{algorule}\vrule}%
+        \vtop{\algocf@push{\skiptext}%
+            \vtop{\algocf@addskiptotal #1}}}%
+    \algocf@pop{\skiprule}%
+    \algocf@eblockcode}
+\def\@algocf@pre@ruled{%
+    \cmtalgohline{\algocf@ruledwidth}{\algoheightrule}\kern\interspacetitleruled}
+\def\@algocf@post@ruled{%
+    \kern\interspacealgoruled\cmtalgohline{\algocf@ruledwidth}{\algoheightrule}}
+\renewcommand{\algocf@caption@ruled}{%
+    \box\algocf@capbox\kern\interspacetitleruled
+    \cmtalgohline{\algocf@ruledwidth}{\algotitleheightrule}\kern\interspacealgoruled}
+\makeatother

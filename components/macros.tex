@@ -1,0 +1,206 @@
+% components/macros.tex
+% Mathematical shortcuts, probability notations, letterfonts, and process timeline helpers.
+
+\RequirePackage{amsmath,amsfonts,amssymb,mathtools}
+\RequirePackage{bm}
+\RequirePackage{mathrsfs}
+\RequirePackage{xparse}
+\RequirePackage{tikz}
+
+%==================================================
+% Number Sets & Standard Blackboard Bold
+%==================================================
+
+\newcommand{\RR}[1][]{\ensuremath{\ifstrempty{#1}{\mathbb{R}}{\mathbb{R}^{#1}}}}
+\newcommand{\NN}[1][]{\ensuremath{\ifstrempty{#1}{\mathbb{N}}{\mathbb{N}^{#1}}}}
+\newcommand{\ZZ}[1][]{\ensuremath{\ifstrempty{#1}{\mathbb{Z}}{\mathbb{Z}^{#1}}}}
+\newcommand{\QQ}[1][]{\ensuremath{\ifstrempty{#1}{\mathbb{Q}}{\mathbb{Q}^{#1}}}}
+\newcommand{\CC}[1][]{\ensuremath{\ifstrempty{#1}{\mathbb{C}}{\mathbb{C}^{#1}}}}
+\newcommand{\PP}[1][]{\ensuremath{\ifstrempty{#1}{\mathbb{P}}{\mathbb{P}^{#1}}}}
+\newcommand{\HH}[1][]{\ensuremath{\ifstrempty{#1}{\mathbb{H}}{\mathbb{H}^{#1}}}}
+\newcommand{\FF}[1][]{\ensuremath{\ifstrempty{#1}{\mathbb{F}}{\mathbb{F}^{#1}}}}
+\newcommand{\EE}{\ensuremath{\mathbb{E}}}
+
+% Full Blackboard Letters
+\newcommand{\bbA}{\mathbb{A}} \newcommand{\bbB}{\mathbb{B}} \newcommand{\bbC}{\mathbb{C}}
+\newcommand{\bbD}{\mathbb{D}} \newcommand{\bbE}{\mathbb{E}} \newcommand{\bbF}{\mathbb{F}}
+\newcommand{\bbG}{\mathbb{G}} \newcommand{\bbH}{\mathbb{H}} \newcommand{\bbI}{\mathbb{I}}
+\newcommand{\bbJ}{\mathbb{J}} \newcommand{\bbK}{\mathbb{K}} \newcommand{\bbL}{\mathbb{L}}
+\newcommand{\bbM}{\mathbb{M}} \newcommand{\bbN}{\mathbb{N}} \newcommand{\bbO}{\mathbb{O}}
+\newcommand{\bbP}{\mathbb{P}} \newcommand{\bbQ}{\mathbb{Q}} \newcommand{\bbR}{\mathbb{R}}
+\newcommand{\bbS}{\mathbb{S}} \newcommand{\bbT}{\mathbb{T}} \newcommand{\bbU}{\mathbb{U}}
+\newcommand{\bbV}{\mathbb{V}} \newcommand{\bbW}{\mathbb{W}} \newcommand{\bbX}{\mathbb{X}}
+\newcommand{\bbY}{\mathbb{Y}} \newcommand{\bbZ}{\mathbb{Z}}
+
+% MathCal Letters
+\newcommand{\mcA}{\mathcal{A}} \newcommand{\mcB}{\mathcal{B}} \newcommand{\mcC}{\mathcal{C}}
+\newcommand{\mcD}{\mathcal{D}} \newcommand{\mcE}{\mathcal{E}} \newcommand{\mcF}{\mathcal{F}}
+\newcommand{\mcG}{\mathcal{G}} \newcommand{\mcH}{\mathcal{H}} \newcommand{\mcI}{\mathcal{I}}
+\newcommand{\mcJ}{\mathcal{J}} \newcommand{\mcK}{\mathcal{K}} \newcommand{\mcL}{\mathcal{L}}
+\newcommand{\mcM}{\mathcal{M}} \newcommand{\mcN}{\mathcal{N}} \newcommand{\mcO}{\mathcal{O}}
+\newcommand{\mcP}{\mathcal{P}} \newcommand{\mcQ}{\mathcal{Q}} \newcommand{\mcR}{\mathcal{R}}
+\newcommand{\mcS}{\mathcal{S}} \newcommand{\mcT}{\mathcal{T}} \newcommand{\mcU}{\mathcal{U}}
+\newcommand{\mcV}{\mathcal{V}} \newcommand{\mcW}{\mathcal{W}} \newcommand{\mcX}{\mathcal{X}}
+\newcommand{\mcY}{\mathcal{Y}} \newcommand{\mcZ}{\mathcal{Z}}
+
+% Bold Math Letters (Capitals & Small)
+\newcommand{\bmA}{\boldsymbol{A}} \newcommand{\bmB}{\boldsymbol{B}} \newcommand{\bmC}{\boldsymbol{C}}
+\newcommand{\bmD}{\boldsymbol{D}} \newcommand{\bmE}{\boldsymbol{E}} \newcommand{\bmF}{\boldsymbol{F}}
+\newcommand{\bmG}{\boldsymbol{G}} \newcommand{\bmH}{\boldsymbol{H}} \newcommand{\bmI}{\boldsymbol{I}}
+\newcommand{\bmJ}{\boldsymbol{J}} \newcommand{\bmK}{\boldsymbol{K}} \newcommand{\bmL}{\boldsymbol{L}}
+\newcommand{\bmM}{\boldsymbol{M}} \newcommand{\bmN}{\boldsymbol{N}} \newcommand{\bmO}{\boldsymbol{O}}
+\newcommand{\bmP}{\boldsymbol{P}} \newcommand{\bmQ}{\boldsymbol{Q}} \newcommand{\bmR}{\boldsymbol{R}}
+\newcommand{\bmS}{\boldsymbol{S}} \newcommand{\bmT}{\boldsymbol{T}} \newcommand{\bmU}{\boldsymbol{U}}
+\newcommand{\bmV}{\boldsymbol{V}} \newcommand{\bmW}{\boldsymbol{W}} \newcommand{\bmX}{\boldsymbol{X}}
+\newcommand{\bmY}{\boldsymbol{Y}} \newcommand{\bmZ}{\boldsymbol{Z}}
+
+\newcommand{\bma}{\boldsymbol{a}} \newcommand{\bmb}{\boldsymbol{b}} \newcommand{\bmc}{\boldsymbol{c}}
+\newcommand{\bmd}{\boldsymbol{d}} \newcommand{\bme}{\boldsymbol{e}} \newcommand{\bmf}{\boldsymbol{f}}
+\newcommand{\bmg}{\boldsymbol{g}} \newcommand{\bmh}{\boldsymbol{h}} \newcommand{\bmi}{\boldsymbol{i}}
+\newcommand{\bmj}{\boldsymbol{j}} \newcommand{\bmk}{\boldsymbol{k}} \newcommand{\bml}{\boldsymbol{l}}
+\newcommand{\bmm}{\boldsymbol{m}} \newcommand{\bmn}{\boldsymbol{n}} \newcommand{\bmo}{\boldsymbol{o}}
+\newcommand{\bmp}{\boldsymbol{p}} \newcommand{\bmq}{\boldsymbol{q}} \newcommand{\bmr}{\boldsymbol{r}}
+\newcommand{\bms}{\boldsymbol{s}} \newcommand{\bmt}{\boldsymbol{t}} \newcommand{\bmu}{\boldsymbol{u}}
+\newcommand{\bmv}{\boldsymbol{v}} \newcommand{\bmw}{\boldsymbol{w}} \newcommand{\bmx}{\boldsymbol{x}}
+\newcommand{\bmy}{\boldsymbol{y}} \newcommand{\bmz}{\boldsymbol{z}}
+
+% Script Letters
+\newcommand{\sA}{\mathscr{A}} \newcommand{\sB}{\mathscr{B}} \newcommand{\sC}{\mathscr{C}}
+\newcommand{\sD}{\mathscr{D}} \newcommand{\sE}{\mathscr{E}} \newcommand{\sF}{\mathscr{F}}
+\newcommand{\sG}{\mathscr{G}} \newcommand{\sH}{\mathscr{H}} \newcommand{\sI}{\mathscr{I}}
+\newcommand{\sJ}{\mathscr{J}} \newcommand{\sK}{\mathscr{K}} \newcommand{\sL}{\mathscr{L}}
+\newcommand{\sM}{\mathscr{M}} \newcommand{\sN}{\mathscr{N}} \newcommand{\sO}{\mathscr{O}}
+\newcommand{\sP}{\mathscr{P}} \newcommand{\sQ}{\mathscr{Q}} \newcommand{\sR}{\mathscr{R}}
+\newcommand{\sS}{\mathscr{S}} \newcommand{\sT}{\mathscr{T}} \newcommand{\sU}{\mathscr{U}}
+\newcommand{\sV}{\mathscr{V}} \newcommand{\sW}{\mathscr{W}} \newcommand{\sX}{\mathscr{X}}
+\newcommand{\sY}{\mathscr{Y}} \newcommand{\sZ}{\mathscr{Z}}
+
+% Fraktur Letters
+\newcommand{\mfA}{\mathfrak{A}} \newcommand{\mfB}{\mathfrak{B}} \newcommand{\mfC}{\mathfrak{C}}
+\newcommand{\mfD}{\mathfrak{D}} \newcommand{\mfE}{\mathfrak{E}} \newcommand{\mfF}{\mathfrak{F}}
+\newcommand{\mfG}{\mathfrak{G}} \newcommand{\mfH}{\mathfrak{H}} \newcommand{\mfI}{\mathfrak{I}}
+\newcommand{\mfJ}{\mathfrak{J}} \newcommand{\mfK}{\mathfrak{K}} \newcommand{\mfL}{\mathfrak{L}}
+\newcommand{\mfM}{\mathfrak{M}} \newcommand{\mfN}{\mathfrak{N}} \newcommand{\mfO}{\mathfrak{O}}
+\newcommand{\mfP}{\mathfrak{P}} \newcommand{\mfQ}{\mathfrak{Q}} \newcommand{\mfR}{\mathfrak{R}}
+\newcommand{\mfS}{\mathfrak{S}} \newcommand{\mfT}{\mathfrak{T}} \newcommand{\mfU}{\mathfrak{U}}
+\newcommand{\mfV}{\mathfrak{V}} \newcommand{\mfW}{\mathfrak{W}} \newcommand{\mfX}{\mathfrak{X}}
+\newcommand{\mfY}{\mathfrak{Y}} \newcommand{\mfZ}{\mathfrak{Z}}
+
+\newcommand{\mfa}{\mathfrak{a}} \newcommand{\mfb}{\mathfrak{b}} \newcommand{\mfc}{\mathfrak{c}}
+\newcommand{\mfd}{\mathfrak{d}} \newcommand{\mfe}{\mathfrak{e}} \newcommand{\mff}{\mathfrak{f}}
+\newcommand{\mfg}{\mathfrak{g}} \newcommand{\mfh}{\mathfrak{h}} \newcommand{\mfi}{\mathfrak{i}}
+\newcommand{\mfj}{\mathfrak{j}} \newcommand{\mfk}{\mathfrak{k}} \newcommand{\mfl}{\mathfrak{l}}
+\newcommand{\mfm}{\mathfrak{m}} \newcommand{\mfn}{\mathfrak{n}} \newcommand{\mfo}{\mathfrak{o}}
+\newcommand{\mfp}{\mathfrak{p}} \newcommand{\mfq}{\mathfrak{q}} \newcommand{\mfr}{\mathfrak{r}}
+\newcommand{\mfs}{\mathfrak{s}} \newcommand{\mft}{\mathfrak{t}} \newcommand{\mfu}{\mathfrak{u}}
+\newcommand{\mfv}{\mathfrak{v}} \newcommand{\mfw}{\mathfrak{w}} \newcommand{\mfx}{\mathfrak{x}}
+\newcommand{\mfy}{\mathfrak{y}} \newcommand{\mfz}{\mathfrak{z}}
+
+%==================================================
+% Delimiters & Paired Delimiters
+%==================================================
+
+\DeclarePairedDelimiter{\abs}{\lvert}{\rvert}
+\DeclarePairedDelimiter{\norm}{\lVert}{\rVert}
+\DeclarePairedDelimiter{\ceil}{\lceil}{\rceil}
+\DeclarePairedDelimiter{\floor}{\lfloor}{\rfloor}
+\DeclarePairedDelimiter{\round}{\lfloor}{\rceil}
+
+% Slanted differential
+\newcommand{\dd}[1][]{\ensuremath{\mathop{}\!\mathrm{d}\ifstrempty{#1}{}{^{#1}}}}
+
+% Derivatives
+\ProvideDocumentCommand\dv{o m g}{%
+    \ensuremath{%
+        \IfValueTF{#3}{%
+            \IfNoValueTF{#1}{%
+                \frac{\mathrm{d} #2}{\mathrm{d} #3}%
+            }{%
+                \frac{\mathrm{d}^{#1} #2}{\mathrm{d} #3^{#1}}%
+            }%
+        }{%
+            \IfNoValueTF{#1}{%
+                \frac{\mathrm{d}}{\mathrm{d} #2}%
+            }{%
+                \frac{\mathrm{d}^{#1}}{\mathrm{d} #2^{#1}}%
+            }%
+        }%
+    }%
+}
+
+\providecommand*{\pdv}[3][]{\frac{\partial^{#1}#2}{\partial#3^{#1}}}
+
+\newcommand{\del}[2]{\frac{\partial #1}{\partial #2}}
+\newcommand{\Del}[3]{\frac{\partial^{#1} #2}{\partial^{#1} #3}}
+\newcommand{\deld}[2]{\dfrac{\partial #1}{\partial #2}}
+\newcommand{\Deld}[3]{\dfrac{\partial^{#1} #2}{\partial^{#1} #3}}
+\newcommand{\der}[2]{\frac{\mathrm{d} #1}{\mathrm{d} #2}}
+\newcommand{\ddd}[3]{\frac{\mathrm{d}^{#3} #1}{\mathrm{d}^{#3} #2}}
+
+% Operators
+\DeclareMathOperator{\Lap}{\mathcal{L}}
+\DeclareMathOperator{\Var}{Var}
+\DeclareMathOperator{\Cov}{Cov}
+\DeclareMathOperator{\E}{E}
+\newcommand{\id}{\mathrm{id}}
+\newcommand{\Id}{\mathrm{Id}}
+\newcommand{\lub}{\mathrm{lub}}
+
+% Greek & General Shortcuts
+\newcommand{\eps}{\epsilon}
+\newcommand{\veps}{\varepsilon}
+\newcommand{\lm}{\lambda}
+\newcommand{\bs}[1]{\boldsymbol{#1}}
+\newcommand{\exs}{\exists}
+\newcommand{\dps}[1]{\displaystyle{#1}}
+\newcommand{\uin}{\mathbin{\rotatebox[origin=c]{90}{$\in$}}}
+\newcommand{\usubset}{\mathbin{\rotatebox[origin=c]{90}{$\subset$}}}
+\newcommand{\opensets}{\{V_{\alpha}\}_{\alpha\in I}}
+\newcommand{\oset}{V_{\alpha}}
+\newcommand{\opset}[1]{V_{\alpha_{#1}}}
+\newcommand{\Qed}{\begin{flushright}\qed\end{flushright}}
+
+% Slanted comparisons
+\let\oldleq\leq
+\let\oldgeq\geq
+\renewcommand{\leq}{\leqslant}
+\renewcommand{\geq}{\geqslant}
+
+% Circled numbers
+\newcommand*\circled[1]{\tikz[baseline=(char.base)]{
+    \node[shape=circle,draw,inner sep=1pt] (char) {#1};}}
+
+%==================================================
+% Step-Flow Process Timeline Helper
+%==================================================
+
+\newcommand{\stepflowitem}[1]{%
+    \tcbox[
+        on line,
+        boxrule=0.5pt,
+        arc=4pt,
+        colback=infobg,
+        colframe=slate300,
+        left=8pt, right=8pt, top=4pt, bottom=4pt,
+    ]{\bfseries\sffamily\color{accentprimary}#1}%
+}
+
+\newcommand{\stepflowarrow}{%
+    \hspace{4pt}{\bfseries\sffamily\color{accentsecondary}\Large$\longrightarrow$}\hspace{4pt}%
+}
+
+\newenvironment{stepflow}{%
+    \begin{center}%
+    \begin{tcolorbox}[
+        enhanced,
+        colback=slate50,
+        colframe=slate300,
+        boxrule=0.6pt,
+        arc=6pt,
+        left=12pt, right=12pt, top=8pt, bottom=8pt,
+        halign=center,
+    ]%
+}{%
+    \end{tcolorbox}%
+    \end{center}%
+}

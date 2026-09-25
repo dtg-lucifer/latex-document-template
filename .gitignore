@@ -1,0 +1,53 @@
+# LaTeX auxiliary and intermediate files
+*.aux
+*.bbl
+*.bcf
+*.blg
+*.dvi
+*.fdb_latexmk
+*.fls
+*.glg
+*.glo
+*.gls
+*.idx
+*.ilg
+*.ind
+*.ist
+*.listing
+*.log
+*.nav
+*.out
+*.run.xml
+*.snm
+*.synctex
+*.synctex(busy)
+*.synctex.gz
+*.synctex.gz(busy)
+*.toc
+*.vrb
+*.lot
+*.lof
+*.mw
+*.alg
+*.alo
+*.lol
+*.maf
+*.mtc*
+*.pyg
+*.spl
+
+# TeX engine temporary files
+*.cut
+*.cpt
+*.xdv
+*.upa
+*.upb
+
+# Editors and IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Secondary PDF builds (keep official output.pdf tracked)
+main.pdf

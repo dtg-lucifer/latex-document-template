@@ -1,0 +1,72 @@
+% components/toc.tex
+% Charlie's signature table of contents styling and custom titletoc formatting.
+
+\RequirePackage{titletoc}
+\RequirePackage{tikz}
+\RequirePackage{xcolor}
+
+\makeatletter
+
+% Charlie's Signature Table of Contents
+\contentsmargin{0cm}
+
+% Chapter Entry: Charlie's signature left-bleeding ribbon badge
+\titlecontents{chapter}[3.2pc]
+{\addvspace{10pt}%
+    \begin{tikzpicture}[remember picture, overlay]%
+        \draw[fill=doc!60,draw=doc!60] (-5,-.1) rectangle (-0.5,.5);%
+        \pgftext[right,x=-0.7cm,y=0.2cm]{\color{white}\large\scshape\bfseries Chapter\ \thecontentslabel}%
+    \end{tikzpicture}\color{doc!60}\large\scshape\bfseries}%
+{}
+{}
+{\hspace{6pt}\titlerule\hspace{6pt}\large\scshape\bfseries Page \thecontentspage
+    \begin{tikzpicture}[remember picture, overlay]
+        \draw[fill=doc!60,draw=doc!60] (2pt,0) rectangle (2.5,0.4pt);
+    \end{tikzpicture}%
+}
+[]
+
+% Section Entry
+\titlecontents{section}[3.2pc]
+{\addvspace{2pt}}
+{\contentslabel[\thecontentslabel]{2.2pc}}
+{}
+{\hfill\small \thecontentspage}
+[]
+
+% Subsection Entry (Inline with bullet separators like Charlie's)
+\titlecontents*{subsection}[3.2pc]
+{\addvspace{-1pt}\small}
+{}
+{}
+{\ --- \small\thecontentspage}
+[\ \textbullet\ ][]
+
+% Custom \tableofcontents with Charlie's Signature Header Banner
+\RenewDocumentCommand{\tableofcontents}{}{%
+    \cleardoublepage
+    \phantomsection
+    \chapter*{%
+        \vspace*{-25\p@}%
+        \begin{tikzpicture}[remember picture, overlay]%
+            \pgftext[right,x=\linewidth,y=0.2cm]{\color{doc!60}\Huge\scshape\bfseries \contentsname}%
+            \draw[fill=doc!60,draw=doc!60] (\linewidth-2.5cm,-.75) rectangle (\linewidth+4.5cm,1);%
+            \clip (\linewidth-2.5cm,-.75) rectangle (\linewidth+4.5cm,1);%
+            \pgftext[right,x=\linewidth,y=0.2cm]{\color{white}\Huge\scshape\bfseries \contentsname}%
+        \end{tikzpicture}%
+    }%
+    \vspace*{15\p@}%
+    \@starttoc{toc}%
+}
+
+% Visual Horizontal Outline Divider
+\newcommand{\outlinedivider}{%
+    \par\vspace{12pt}\noindent%
+    \begin{tikzpicture}%
+        \draw[line width=1.5pt, color=doc!70] (0,0) -- (40pt,0);%
+        \draw[line width=0.5pt, color=slate300] (44pt,0) -- (\linewidth,0);%
+    \end{tikzpicture}%
+    \par\vspace{12pt}%
+}
+
+\makeatother

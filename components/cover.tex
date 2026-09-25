@@ -1,0 +1,176 @@
+% components/cover.tex
+% Executive / Technical Report Cover Page.
+% Replicates the Veritas Technical Report design language in LaTeX.
+% Fully flexible: supports both rich executive reports and minimalist simple covers.
+
+\RequirePackage[most]{tcolorbox}
+\RequirePackage{tikz}
+\RequirePackage{xcolor}
+\RequirePackage{etoolbox}
+
+\makeatletter
+
+% Document Metadata Fields
+\newcommand{\docsubtitle}[1]{\def\@docsubtitle{#1}}
+\newcommand{\docorganization}[1]{\def\@docorganization{#1}}
+\newcommand{\docversion}[1]{\def\@docversion{#1}}
+\newcommand{\docdomain}[1]{\def\@docdomain{#1}}
+\newcommand{\docabstract}[1]{\def\@docabstract{#1}}
+\newcommand{\docfooternote}[1]{\def\@docfooternote{#1}}
+\newcommand{\docauthors}[1]{\def\@docauthors{#1}}
+
+% Defaults
+\let\@docsubtitle\@empty
+\let\@docorganization\@empty
+\let\@docversion\@empty
+\let\@docdomain\@empty
+\let\@docabstract\@empty
+\let\@docfooternote\@empty
+\let\@docauthors\@empty
+
+% Helper to print authors cleanly
+\newcommand{\@printauthors}{%
+    \ifdefempty{\@docauthors}{%
+        \ifdefempty{\@author}{}{%
+            \begingroup%
+            \def\and{,\penalty0\ }%
+            \@author%
+            \endgroup%
+        }%
+    }{\@docauthors}%
+}
+
+\newcounter{cover@metacount}
+\newbool{cover@hasauthor}
+
+% Render Executive Cover Page
+\newcommand{\rendercoverpage}{%
+    \begin{titlepage}%
+    \thispagestyle{empty}%
+    \centering\vspace*{\fill}%
+    \begin{tcolorbox}[
+        enhanced,
+        width=\linewidth,
+        colback=slate50,
+        colframe=accentprimary,
+        boxrule=1.5pt,
+        arc=12pt,
+        left=24pt,
+        right=24pt,
+        top=28pt,
+        bottom=24pt,
+        halign=center,
+    ]
+        % 1. Organization Kicker (Optional)
+        \ifdefempty{\@docorganization}{}{%
+            {\small\bfseries\sffamily\color{accentsecondary}\textls[200]{\MakeUppercase{\@docorganization}}}\par\vspace{8pt}%
+            \begin{center}%
+                \textcolor{accentsecondary}{\rule{0.35\linewidth}{1.5pt}}%
+            \end{center}\vspace{12pt}%
+        }%
+
+        % 2. Document Title (Required)
+        {\Huge\bfseries\sffamily\color{accentprimary}\@title}\par\vspace{10pt}%
+
+        % 3. Subtitle (Optional)
+        \ifdefempty{\@docsubtitle}{}{%
+            {\large\sffamily\color{slate700}\@docsubtitle}\par\vspace{16pt}%
+        }%
+
+        % 4. Abstract Block (Optional)
+        \ifdefempty{\@docabstract}{}{%
+            \begin{center}%
+            \begin{tcolorbox}[
+                enhanced,
+                width=0.92\linewidth,
+                colback=infobg,
+                colframe=slate300,
+                boxrule=0.6pt,
+                arc=6pt,
+                left=12pt, right=12pt, top=10pt, bottom=10pt,
+                halign=left,
+            ]
+                \small\itshape\sffamily\color{accentprimary}\@docabstract
+            \end{tcolorbox}%
+            \end{center}\vspace{16pt}%
+        }%
+
+        % 5. Flexible Metadata Grid
+        % Count active metadata fields
+        \setcounter{cover@metacount}{0}%
+        \boolfalse{cover@hasauthor}%
+        \ifdefempty{\@docauthors}{%
+            \ifdefempty{\@author}{}{\booltrue{cover@hasauthor}}%
+        }{\booltrue{cover@hasauthor}}%
+        \ifdefempty{\@docdomain}{}{\stepcounter{cover@metacount}}%
+        \ifdefempty{\@docversion}{}{\stepcounter{cover@metacount}}%
+        \ifbool{cover@hasauthor}{\stepcounter{cover@metacount}}{}%
+
+        \ifnumgreater{\value{cover@metacount}}{0}{%
+            \vspace{6pt}%
+            \noindent%
+            \ifnumequal{\value{cover@metacount}}{1}{%
+                \def\cover@colwidth{0.70\linewidth}%
+            }{%
+                \ifnumequal{\value{cover@metacount}}{2}{%
+                    \def\cover@colwidth{0.46\linewidth}%
+                }{%
+                    \def\cover@colwidth{0.305\linewidth}%
+                }%
+            }%
+            \begingroup%
+            \newbool{cover@needhfill}%
+            \boolfalse{cover@needhfill}%
+            % Domain column
+            \ifdefempty{\@docdomain}{}{%
+                \ifbool{cover@needhfill}{\hfill}{}%
+                \begin{minipage}[t]{\cover@colwidth}%
+                    \centering%
+                    {\scriptsize\bfseries\sffamily\color{slate500}\textls[100]{SYSTEM DOMAIN}}\par\vspace{3pt}%
+                    {\small\sffamily\color{slate900}\@docdomain\par}%
+                \end{minipage}%
+                \booltrue{cover@needhfill}%
+            }%
+            % Version column
+            \ifdefempty{\@docversion}{}{%
+                \ifbool{cover@needhfill}{\hfill}{}%
+                \begin{minipage}[t]{\cover@colwidth}%
+                    \centering%
+                    {\scriptsize\bfseries\sffamily\color{slate500}\textls[100]{DOCUMENT VERSION}}\par\vspace{3pt}%
+                    {\small\sffamily\color{slate900}\@docversion\par}%
+                \end{minipage}%
+                \booltrue{cover@needhfill}%
+            }%
+            % Authors column
+            \ifbool{cover@hasauthor}{%
+                \ifbool{cover@needhfill}{\hfill}{}%
+                \begin{minipage}[t]{\cover@colwidth}%
+                    \centering%
+                    {\scriptsize\bfseries\sffamily\color{slate500}\textls[100]{AUTHORS / CONTRIBUTORS}}\par\vspace{3pt}%
+                    {\small\sffamily\color{slate900}\@printauthors\par}%
+                \end{minipage}%
+                \booltrue{cover@needhfill}%
+            }{}%
+            \endgroup\par\vspace{18pt}%
+        }{}%
+
+        % 6. Footer Divider Line (Only if date or footernote present)
+        \ifboolexpr{ test {\ifdefempty{\@date}} and test {\ifdefempty{\@docfooternote}} }{}{%
+            \begin{center}%
+                \textcolor{slate300}{\rule{0.75\linewidth}{0.5pt}}%
+            \end{center}\vspace{8pt}%
+            % 7. Footer Note & Date
+            {\footnotesize\sffamily\color{slate500}%
+                \ifdefempty{\@date}{}{Date: \@date}%
+                \ifdefempty{\@docfooternote}{}{%
+                    \ifdefempty{\@date}{}{ $\cdot$ }\@docfooternote%
+                }%
+            }\par%
+        }%
+    \end{tcolorbox}%
+    \vspace*{\fill}%
+    \end{titlepage}%
+    \clearpage%
+}
+
+\makeatother

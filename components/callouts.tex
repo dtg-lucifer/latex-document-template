@@ -1,0 +1,152 @@
+% components/callouts.tex
+% Signature Callouts, Admonition Blocks, and Alert Suites.
+% Modeled after the Veritas / typst-document-template design language.
+
+\RequirePackage[most]{tcolorbox}
+\RequirePackage{xcolor}
+
+% Base Callout Style
+\tcbset{
+    veritascallout/.style n args={3}{
+        enhanced,
+        breakable,
+        colback=#1,
+        frame hidden,
+        boxrule=0pt,
+        borderline west={3.5pt}{0pt}{#2},
+        borderline north={0.5pt}{0pt}{slate300},
+        borderline east={0.5pt}{0pt}{slate300},
+        borderline south={0.5pt}{0pt}{slate300},
+        arc=4pt,
+        left=12pt,
+        right=12pt,
+        top=10pt,
+        bottom=10pt,
+        before skip=10pt,
+        after skip=10pt,
+        fontupper=\normalsize,
+        colupper=#3,
+    },
+    hlbox@blue/.style={colback=infobg, colframe=accentsky, colupper=accentprimary},
+    hlbox@green/.style={colback=badgegreenbg, colframe=badgegreenborder, colupper=badgegreentext},
+    hlbox@red/.style={colback=badgeredbg, colframe=badgeredborder, colupper=badgeredtext},
+    hlbox@amber/.style={colback=badgeamberbg, colframe=badgeamberborder, colupper=badgeambertext},
+    hlbox@neutral/.style={colback=slate100, colframe=slate300, colupper=slate900},
+}
+
+% 1. Concept Note Callout (Blue)
+\newtcolorbox{calloutbox}[2][]{
+    veritascallout={infobg}{accentprimary}{slate900},
+    title={\ifstrempty{#2}{}{\textbf{\sffamily\color{accentprimary}#2}}},
+    detach title,
+    before upper={%
+        \ifstrempty{#1}{}{%
+            {\footnotesize\bfseries\sffamily\color{accentsky}\textls[150]{\MakeUppercase{#1}}}\par\vspace{2pt}%
+        }%
+        \ifstrempty{#2}{}{%
+            {\large\bfseries\sffamily\color{accentprimary}#2}\par\vspace{4pt}%
+        }%
+    },
+}
+\newcommand{\callout}[3][CONCEPT NOTE]{%
+    \begin{calloutbox}[#1]{#2}#3\end{calloutbox}%
+}
+
+% 2. Architectural / Key Takeaway Box (Green)
+\newtcolorbox{takeawaybox}[2][]{
+    veritascallout={tipbg}{accentemerald}{slate900},
+    title={\ifstrempty{#2}{}{\textbf{\sffamily\color{tiptitle}#2}}},
+    detach title,
+    before upper={%
+        \ifstrempty{#1}{}{%
+            {\footnotesize\bfseries\sffamily\color{accentemerald}\textls[150]{\MakeUppercase{#1}}}\par\vspace{2pt}%
+        }%
+        \ifstrempty{#2}{}{%
+            {\large\bfseries\sffamily\color{tiptitle}#2}\par\vspace{4pt}%
+        }%
+    },
+}
+\newcommand{\takeaway}[3][ARCHITECTURAL PRINCIPLE]{%
+    \begin{takeawaybox}[#1]{#2}#3\end{takeawaybox}%
+}
+
+% 3. Engineering Challenge & Resolution Box (Orange)
+\newtcolorbox{challengeboxinner}[2][]{
+    veritascallout={challengebg}{accentamber}{slate900},
+    detach title,
+    before upper={%
+        \ifstrempty{#1}{%
+            {\footnotesize\bfseries\sffamily\color{accentamber}\textls[150]{ENGINEERING CHALLENGE \& RESOLUTION}}\par\vspace{2pt}%
+        }{%
+            {\footnotesize\bfseries\sffamily\color{accentamber}\textls[150]{\MakeUppercase{#1}}}\par\vspace{2pt}%
+        }%
+        \ifstrempty{#2}{}{%
+            {\large\bfseries\sffamily\color{challengetitle}#2}\par\vspace{6pt}%
+        }%
+    },
+}
+\newcommand{\challengebox}[4][ENGINEERING CHALLENGE \& RESOLUTION]{%
+    \begin{challengeboxinner}[#1]{#2}
+        \par\noindent\textbf{\sffamily\color{challengeproblem}The Operational Problem:}\ #3
+        \par\vspace{6pt}
+        \par\noindent\textbf{\sffamily\color{challengesolution}Engineering Resolution:}\ #4
+    \end{challengeboxinner}%
+}
+
+% 4. Alert Suites: Info, Warning, Danger, Tip
+\newtcolorbox{infobox}[1][Information]{
+    veritascallout={infobg}{accentsky}{infotext},
+    detach title,
+    before upper={%
+        {\footnotesize\bfseries\sffamily\color{accentsky}\textls[150]{INFO}}\par\vspace{2pt}%
+        {\bfseries\sffamily\color{infotitle}#1}\par\vspace{4pt}%
+    },
+}
+\newcommand{\info}[2][Information]{\begin{infobox}[#1]#2\end{infobox}}
+
+\newtcolorbox{warningbox}[1][Warning]{
+    veritascallout={warnbg}{accentamber}{warntext},
+    detach title,
+    before upper={%
+        {\footnotesize\bfseries\sffamily\color{accentamber}\textls[150]{WARNING}}\par\vspace{2pt}%
+        {\bfseries\sffamily\color{warntitle}#1}\par\vspace{4pt}%
+    },
+}
+\newcommand{\warning}[2][Warning]{\begin{warningbox}[#1]#2\end{warningbox}}
+
+\newtcolorbox{dangerbox}[1][Critical Alert]{
+    veritascallout={dangerbg}{accentcrimson}{dangertext},
+    detach title,
+    before upper={%
+        {\footnotesize\bfseries\sffamily\color{accentcrimson}\textls[150]{CRITICAL ALERT}}\par\vspace{2pt}%
+        {\bfseries\sffamily\color{dangertitle}#1}\par\vspace{4pt}%
+    },
+}
+\newcommand{\danger}[2][Critical Alert]{\begin{dangerbox}[#1]#2\end{dangerbox}}
+
+\newtcolorbox{tipbox}[1][Pro-Tip]{
+    veritascallout={tipbg}{accentemerald}{tiptext},
+    detach title,
+    before upper={%
+        {\footnotesize\bfseries\sffamily\color{accentemerald}\textls[150]{RECOMMENDATION}}\par\vspace{2pt}%
+        {\bfseries\sffamily\color{tiptitle}#1}\par\vspace{4pt}%
+    },
+}
+\newcommand{\tip}[2][Pro-Tip]{\begin{tipbox}[#1]#2\end{tipbox}}
+
+% 5. Standout Centered Highlight / Contrast Box
+\newcommand{\highlightbox}[2][blue]{%
+    \begin{center}%
+    \begin{tcolorbox}[
+        enhanced,
+        width=0.96\linewidth,
+        arc=5pt,
+        boxrule=1pt,
+        left=14pt, right=14pt, top=10pt, bottom=10pt,
+        halign=center,
+        hlbox@#1,
+    ]
+        \bfseries\large #2
+    \end{tcolorbox}%
+    \end{center}%
+}

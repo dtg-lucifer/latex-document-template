@@ -1,0 +1,75 @@
+% prelude.tex
+% Unified single-import entry point for Charlie's LaTeX Template.
+% Automatically loads all required packages, configurations, and components.
+
+\RequirePackage{iftex}
+
+% Font and Typography Setup
+\ifLuaTeX
+    \RequirePackage{fontspec}
+    \defaultfontfeatures{Ligatures=TeX}
+    % Times New Roman (TeX Gyre Termes) everywhere for all regular text and headings
+    \setmainfont{texgyretermes-regular.otf}[
+        BoldFont = texgyretermes-bold.otf,
+        ItalicFont = texgyretermes-italic.otf,
+        BoldItalicFont = texgyretermes-bolditalic.otf,
+    ]
+    % Also set sans-serif font to Times New Roman so all text uses Times New Roman
+    \setsansfont{texgyretermes-regular.otf}[
+        BoldFont = texgyretermes-bold.otf,
+        ItalicFont = texgyretermes-italic.otf,
+        BoldItalicFont = texgyretermes-bolditalic.otf,
+    ]
+    % SF Mono for all monospaced / code typography and inline code
+    \setmonofont{SFMono}[
+        Path = assets/fonts/,
+        Extension = .otf,
+        UprightFont = * Regular Nerd Font Complete,
+        BoldFont = * Bold Nerd Font Complete,
+        ItalicFont = * Regular Italic Nerd Font Complete,
+        BoldItalicFont = * Bold Italic Nerd Font Complete,
+    ]
+\else
+    \RequirePackage[T1]{fontenc}
+    \RequirePackage[utf8]{inputenc}
+    \RequirePackage{newtxtext}
+\fi
+
+% Math foundations with matching Times math font
+\RequirePackage{amsmath,mathtools,amsthm}
+\RequirePackage{newtxmath}
+
+% Undefine \Bbbk if amssymb defines it
+\let\Bbbk\relax
+\RequirePackage{amsfonts,amssymb}
+
+% Essential Packages
+\RequirePackage{graphicx}
+\RequirePackage{float}
+\RequirePackage{enumitem}
+\RequirePackage{etoolbox}
+\RequirePackage{xcolor}
+
+% TikZ and Graphics
+\RequirePackage{tikz}
+\usetikzlibrary{arrows,arrows.meta,calc,shadows,shadows.blur,shapes.geometric,positioning,fit}
+
+% Hyperlinks & Cross-Referencing (must be loaded before tcbtheorem)
+\RequirePackage{hyperref}
+\RequirePackage[nameinlink,capitalize,noabbrev]{cleveref}
+
+% Modular Components
+\input{components/theme}
+\input{components/theorems}
+\input{components/callouts}
+\input{components/boxes}
+\input{components/badges}
+\input{components/codeblock}
+\input{components/tables}
+\input{components/toc}
+\input{components/macros}
+\input{components/cover}
+\input{components/algorithms}
+
+% Document Layout & Rules (geometry, fancyhdr, titlesec)
+\input{template}

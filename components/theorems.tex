@@ -1,0 +1,365 @@
+% components/theorems.tex
+% Charlie's signature mathematical environments, boxed theorems, ribbons, and shortcuts.
+
+\RequirePackage[most,many,breakable]{tcolorbox}
+\RequirePackage{varwidth}
+\RequirePackage{tikz}
+\usetikzlibrary{arrows,calc,shadows.blur}
+\tcbuselibrary{theorems,skins,hooks}
+
+\makeatletter
+
+%==================================================
+% TColorBox Styles
+%==================================================
+
+\tcbset{
+    cmtleftpanel/.style 2 args={
+        enhanced,
+        breakable,
+        colback = #1,
+        frame hidden,
+        boxrule = 0sp,
+        borderline west = {2.5pt}{0pt}{#2},
+        sharp corners,
+        description font = \mdseries,
+        separator sign none,
+    },
+    cmtleftthm/.style 2 args={
+        cmtleftpanel={#1}{#2},
+        detach title,
+        before upper = \tcbtitle\par\smallskip,
+        coltitle = #2,
+        fonttitle = \bfseries\sffamily,
+        segmentation style={solid, #2},
+    },
+    cmtexamplethm/.style={
+        colback = myexamplebg,
+        breakable,
+        colframe = myexamplefr,
+        coltitle = myexampleti,
+        boxrule = 1pt,
+        sharp corners,
+        detach title,
+        before upper=\tcbtitle\par\smallskip,
+        fonttitle = \bfseries\sffamily,
+        description font = \mdseries,
+        separator sign none,
+        description delimiters parenthesis,
+    },
+    cmtdefinitionthm/.style={
+        enhanced,
+        before skip=3mm,
+        after skip=3mm,
+        colback=mydefinitbg,
+        colframe=mydefinitfr,
+        boxrule=0.5mm,
+        attach boxed title to top left={xshift=1cm,yshift*=1mm-\tcboxedtitleheight},
+        varwidth boxed title*=-3cm,
+        colbacktitle=mydefinitfr,
+        coltitle=white,
+        boxed title style={
+            frame code={
+                \path[fill=tcbcolback]
+                ([yshift=-1mm,xshift=-1mm]frame.north west)
+                arc[start angle=0,end angle=180,radius=1mm]
+                ([yshift=-1mm,xshift=1mm]frame.north east)
+                arc[start angle=180,end angle=0,radius=1mm];
+                \path[left color=tcbcolback!60!black,right color=tcbcolback!60!black,
+                    middle color=tcbcolback!80!black]
+                ([xshift=-2mm]frame.north west) -- ([xshift=2mm]frame.north east)
+                [rounded corners=1mm]-- ([xshift=1mm,yshift=-1mm]frame.north east)
+                -- (frame.south east) -- (frame.south west)
+                -- ([xshift=-1mm,yshift=-1mm]frame.north west)
+                [sharp corners]-- cycle;
+            },
+            interior engine=empty,
+        },
+        fonttitle=\bfseries\sffamily,
+    },
+    cmtribbonbox/.style={
+        enhanced,
+        breakable,
+        colback=white,
+        attach boxed title to top left={yshift*=-\tcboxedtitleheight},
+        fonttitle=\bfseries\sffamily,
+        boxed title size=title,
+        boxed title style={
+            sharp corners,
+            rounded corners=northwest,
+            colback=tcbcolframe,
+            boxrule=0pt,
+        },
+        underlay boxed title={
+            \path[fill=tcbcolframe] (title.south west)--(title.south east)
+            to[out=0, in=180] ([xshift=5mm]title.east)--
+            (title.center-|frame.east)
+            [rounded corners=\kvtcb@arc] |-
+            (frame.north) -| cycle;
+        },
+    },
+}
+
+%==================================================
+% Theorem Environments
+%==================================================
+
+% 1. Theorem
+\newtcbtheorem[
+    number within=chapter,
+    crefname={theorem}{theorems},
+    Crefname={Theorem}{Theorems}
+]{Theorem}{Theorem}{cmtleftthm={mytheorembg}{mytheoremfr}}{th}
+
+\newtcbtheorem[
+    number within=chapter,
+    crefname={theorem}{theorems},
+    Crefname={Theorem}{Theorems}
+]{theorem}{Theorem}{cmtleftthm={mytheorembg}{mytheoremfr}}{th}
+
+\newtcolorbox{Theoremcon}{
+    cmtleftpanel={mytheorembg}{mytheoremfr}
+}
+
+% 2. Corollary
+\newtcbtheorem[
+    number within=chapter,
+    crefname={corollary}{corollaries},
+    Crefname={Corollary}{Corollaries}
+]{Corollary}{Corollary}{cmtleftthm={myp!10}{myp!85!black}}{th}
+
+\newtcbtheorem[
+    number within=chapter,
+    crefname={corollary}{corollaries},
+    Crefname={Corollary}{Corollaries}
+]{corollary}{Corollary}{cmtleftthm={myp!10}{myp!85!black}}{th}
+
+% 3. Lemma
+\newtcbtheorem[
+    number within=chapter,
+    crefname={lemma}{lemmas},
+    Crefname={Lemma}{Lemmas}
+]{Lemma}{Lemma}{cmtleftthm={mylemmabg}{mylemmafr}}{th}
+
+\newtcbtheorem[
+    number within=chapter,
+    crefname={lemma}{lemmas},
+    Crefname={Lemma}{Lemmas}
+]{lemma}{Lemma}{cmtleftthm={mylemmabg}{mylemmafr}}{th}
+
+% 4. Proposition
+\newtcbtheorem[
+    number within=chapter,
+    crefname={proposition}{propositions},
+    Crefname={Proposition}{Propositions}
+]{Prop}{Proposition}{cmtleftthm={mypropbg}{mypropfr}}{th}
+
+\newtcbtheorem[
+    number within=chapter,
+    crefname={proposition}{propositions},
+    Crefname={Proposition}{Propositions}
+]{prop}{Proposition}{cmtleftthm={mypropbg}{mypropfr}}{th}
+
+% 5. Claim
+\newtcbtheorem[
+    number within=chapter,
+    crefname={claim}{claims},
+    Crefname={Claim}{Claims}
+]{claim}{Claim}{
+    cmtleftthm={myg!10}{myg!85!black},
+    borderline west = {2.5pt}{0pt}{myg},
+}{th}
+
+% 6. Exercise
+\newtcbtheorem[
+    number within=chapter,
+    crefname={exercise}{exercises},
+    Crefname={Exercise}{Exercises}
+]{Exercise}{Exercise}{cmtleftthm={myexercisebg}{myexercisefg}}{th}
+
+\newtcbtheorem[
+    number within=chapter,
+    crefname={exercise}{exercises},
+    Crefname={Exercise}{Exercises}
+]{exercise}{Exercise}{cmtleftthm={myexercisebg}{myexercisefg}}{th}
+
+% 7. Example
+\newtcbtheorem[
+    number within=chapter,
+    crefname={example}{examples},
+    Crefname={Example}{Examples}
+]{Example}{Example}{cmtexamplethm}{ex}
+
+\newtcbtheorem[
+    number within=chapter,
+    crefname={example}{examples},
+    Crefname={Example}{Examples}
+]{example}{Example}{cmtexamplethm}{ex}
+
+% 8. Definition (Signature Bookmark Tab Style)
+\newtcbtheorem[
+    number within=chapter,
+    crefname={definition}{definitions},
+    Crefname={Definition}{Definitions}
+]{Definition}{Definition}{
+    cmtdefinitionthm,
+    title={#2},#1
+}{def}
+
+\newtcbtheorem[
+    number within=chapter,
+    crefname={definition}{definitions},
+    Crefname={Definition}{Definitions}
+]{definition}{Definition}{
+    cmtdefinitionthm,
+    title={#2},#1
+}{def}
+
+% 9. Remark
+\newtcbtheorem[
+    number within=chapter,
+    crefname={remark}{remarks},
+    Crefname={Remark}{Remarks}
+]{Remark}{Remark}{cmtleftthm={myremarkbg}{myremarkfr}}{rmk}
+
+\newtcbtheorem[
+    number within=chapter,
+    crefname={remark}{remarks},
+    Crefname={Remark}{Remarks}
+]{remark}{Remark}{cmtleftthm={myremarkbg}{myremarkfr}}{rmk}
+
+% 10. Question (Signature Ribbon Style)
+\@ifundefined{c@questioncounter}{\newcounter{questioncounter}}{}
+\@ifundefined{c@chapter}{}{%
+    \counterwithin{questioncounter}{chapter}%
+}
+
+\newtcbtheorem[
+    use counter=questioncounter,
+    crefname={question}{questions},
+    Crefname={Question}{Questions}
+]{question}{Question}{
+    cmtribbonbox,
+    colframe=myb!80!black,
+    title={#2},
+    #1
+}{qs}
+
+\newtcbtheorem[
+    crefname={question}{questions},
+    Crefname={Question}{Questions}
+]{qstion}{Question}{
+    cmtribbonbox,
+    colframe=mygr,
+    title={#2},
+    #1
+}{qs}
+
+% 11. Solution (Ribbon Style)
+\newtcolorbox{solution}[1][]{
+    cmtribbonbox,
+    colframe=myg!80!black,
+    title=Solution,
+    #1
+}
+\newenvironment{solbox}[1][]{\begin{solution}[#1]}{\end{solution}}
+
+% 12. Wrong Concept Box (Red Top Badge)
+\newtcbtheorem[
+    number within=chapter,
+    crefname={wrong concept}{wrong concepts},
+    Crefname={Wrong Concept}{Wrong Concepts}
+]{wconc}{Wrong Concept}{
+    breakable,
+    enhanced,
+    colback=white,
+    colframe=myr,
+    arc=0pt,
+    outer arc=0pt,
+    fonttitle=\bfseries\sffamily\large,
+    colbacktitle=myr,
+    attach boxed title to top left={},
+    boxed title style={
+        enhanced,
+        skin=enhancedfirst jigsaw,
+        arc=3pt,
+        bottom=0pt,
+        interior style={fill=myr}
+    },
+    #1
+}{wc}
+
+% 13. Note Box (Card with Rivet / Screw Holes & Blur Drop Shadow)
+\newtcolorbox{note}[1][]{
+    enhanced jigsaw,
+    colback=gray!15!white,
+    colframe=gray!80!black,
+    size=small,
+    boxrule=1pt,
+    title=\textbf{\sffamily Note:},
+    halign title=flush center,
+    coltitle=black,
+    breakable,
+    drop shadow=black!40!white,
+    attach boxed title to top left={xshift=1cm,yshift=-\tcboxedtitleheight/2,yshifttext=-\tcboxedtitleheight/2},
+    minipage boxed title=1.8cm,
+    boxed title style={
+        colback=white,
+        size=fbox,
+        boxrule=1pt,
+        boxsep=2pt,
+        underlay={
+            \coordinate (dotA) at ($(interior.west) + (-0.5pt,0)$);
+            \coordinate (dotB) at ($(interior.east) + (0.5pt,0)$);
+            \begin{scope}
+                \clip (interior.north west) rectangle ([xshift=3ex]interior.east);
+                \filldraw [white, blur shadow={shadow opacity=60, shadow yshift=-.75ex}, rounded corners=2pt] (interior.north west) rectangle (interior.south east);
+            \end{scope}
+            \begin{scope}[gray!80!black]
+                \fill (dotA) circle (2pt);
+                \fill (dotB) circle (2pt);
+            \end{scope}
+        },
+    },
+    #1,
+}
+
+% 14. Proof Environment
+\newenvironment{myproof}[1][\proofname]{%
+    \begin{proof}[\bfseries\sffamily #1]%
+}{%
+    \end{proof}%
+}
+
+\newenvironment{myclaim}[1][Claim]{\begin{proof}[\bfseries\sffamily #1]}{\end{proof}}
+\newenvironment{iclaim}[1][Claim]{\par\noindent\textbf{\sffamily #1:}\ }{\par}
+
+%==================================================
+% Shorthand Macros
+%==================================================
+
+\newcommand{\thm}[2]{\begin{Theorem}{#1}{}#2\end{Theorem}}
+\newcommand{\cor}[2]{\begin{Corollary}{#1}{}#2\end{Corollary}}
+\newcommand{\mlemma}[2]{\begin{Lemma}{#1}{}#2\end{Lemma}}
+\newcommand{\mer}[2]{\begin{Exercise}{#1}{}#2\end{Exercise}}
+\newcommand{\mprop}[2]{\begin{Prop}{#1}{}#2\end{Prop}}
+\newcommand{\clm}[3]{\begin{claim}{#1}{#2}#3\end{claim}}
+\newcommand{\wc}[2]{\begin{wconc}{#1}{}\setlength{\parindent}{1cm}#2\end{wconc}}
+\newcommand{\thmcon}[1]{\begin{Theoremcon}#1\end{Theoremcon}}
+\newcommand{\ex}[2]{\begin{Example}{#1}{}#2\end{Example}}
+\newcommand{\dfn}[2]{\begin{Definition}{#1}{}#2\end{Definition}}
+\newcommand{\dfnc}[2]{\begin{definition}{#1}{}#2\end{definition}}
+\newcommand{\rmk}[2]{\begin{Remark}{#1}{}#2\end{Remark}}
+\newcommand{\qs}[2]{\begin{question}{#1}{}#2\end{question}}
+\newcommand{\pf}[2]{\begin{myproof}[#1]#2\end{myproof}}
+\newcommand{\nt}[1]{\begin{note}#1\end{note}}
+\newcommand{\iclm}[2]{\begin{iclaim}[#1]#2\end{iclaim}}
+\newcommand{\mclm}[2]{\begin{myclaim}[#1]#2\end{myclaim}}
+
+\newcommand{\cmtsolutionheading}{%
+    \par\noindent\textbf{\textit{\sffamily Solution:}}\setlength{\parindent}{1cm}\par\smallskip\noindent%
+}
+\newenvironment{sol}{\cmtsolutionheading}{\par}
+\newcommand{\solve}[1]{\cmtsolutionheading #1 \hfill\ensuremath{\blacksquare}}
+
+\makeatother

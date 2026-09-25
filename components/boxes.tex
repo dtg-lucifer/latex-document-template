@@ -1,0 +1,145 @@
+% components/boxes.tex
+% Container boxes, metric cards, and dashboard-style telemetry widgets.
+
+\RequirePackage[most]{tcolorbox}
+\RequirePackage{xcolor}
+
+% 1. Left-Bar Container Box
+\newtcolorbox{leftbarbox}[1][accentprimary]{
+    enhanced,
+    breakable,
+    colback=slate50,
+    frame hidden,
+    boxrule=0pt,
+    borderline west={3.5pt}{0pt}{#1},
+    borderline north={0.5pt}{0pt}{slate300},
+    borderline east={0.5pt}{0pt}{slate300},
+    borderline south={0.5pt}{0pt}{slate300},
+    arc=4pt,
+    left=12pt,
+    right=12pt,
+    top=10pt,
+    bottom=10pt,
+    before skip=8pt,
+    after skip=8pt,
+}
+
+% 2. Executive Card Box (Header + Content + Optional Footer)
+\newenvironment{cardbox}[3][]{%
+    \begin{tcolorbox}[
+        enhanced,
+        breakable,
+        colback=white,
+        colframe=slate300,
+        boxrule=0.6pt,
+        arc=6pt,
+        left=12pt,
+        right=12pt,
+        top=10pt,
+        bottom=10pt,
+        before skip=8pt,
+        after skip=8pt,
+        colbacktitle=slate100,
+        coltitle=slate900,
+        fonttitle=\bfseries\sffamily,
+        titlerule=0.5pt,
+        titlerule style=slate300,
+        toptitle=8pt,
+        bottomtitle=8pt,
+        lefttitle=12pt,
+        righttitle=12pt,
+        title={%
+            \parbox{\linewidth}{%
+                {\bfseries\sffamily\color{slate900}#2}%
+                \ifblank{#1}{}{%
+                    \hfill{\footnotesize\bfseries\sffamily\color{accentprimary}\textls[100]{\MakeUppercase{#1}}}%
+                }%
+            }%
+        },
+    ]%
+    \def\cardboxfootercontent{#3}%
+}{%
+    \ifblank{\cardboxfootercontent}{}{%
+        \par\vspace{8pt}%
+        \noindent\textcolor{slate300}{\rule{\linewidth}{0.5pt}}\par\vspace{4pt}%
+        {\footnotesize\sffamily\color{slate500}\cardboxfootercontent}%
+    }%
+    \end{tcolorbox}%
+}
+
+% 3. Executive KPI Metric Card (Equal Height Group for Consistent Sizing)
+% Arguments: #1=Width, #2=Title, #3=Value, #4=Change text, #5=IsPositive (1/0), #6=SLA Note
+\newcommand{\metriccard}[6][\linewidth]{%
+    \begin{tcolorbox}[
+        enhanced,
+        width=#1,
+        equal height group=metriccards,
+        colback=slate50,
+        colframe=slate300,
+        boxrule=0.6pt,
+        arc=6pt,
+        left=10pt, right=10pt, top=10pt, bottom=10pt,
+        halign=left,
+        valign=top,
+    ]
+        {\footnotesize\bfseries\sffamily\color{slate500}\textls[100]{\MakeUppercase{#2}}}\par\vspace{4pt}
+        {\Huge\bfseries\sffamily\color{slate900}#3}\par\vspace{6pt}
+        \ifstrempty{#4}{}{%
+            \ifstrequal{#5}{1}{%
+                \tcbox[
+                    on line,
+                    boxrule=0.4pt,
+                    arc=3pt,
+                    colback=badgegreenbg,
+                    colframe=badgegreenborder,
+                    left=4pt, right=4pt, top=1pt, bottom=1pt,
+                ]{\scriptsize\bfseries\sffamily\color{badgegreentext}#4}%
+            }{%
+                \tcbox[
+                    on line,
+                    boxrule=0.4pt,
+                    arc=3pt,
+                    colback=badgeredbg,
+                    colframe=badgeredborder,
+                    left=4pt, right=4pt, top=1pt, bottom=1pt,
+                ]{\scriptsize\bfseries\sffamily\color{badgeredtext}#4}%
+            }\par\vspace{4pt}%
+        }
+        \ifstrempty{#6}{}{%
+            \vfill
+            {\scriptsize\sffamily\color{slate500}#6\par}%
+        }
+    \end{tcolorbox}%
+}
+
+% 4. Metric Grid (3 cards side by side, strictly consistent heights)
+\newcommand{\metricgridthree}[3]{%
+    \par\noindent\vspace{4pt}%
+    \begin{minipage}[t]{0.315\linewidth}#1\end{minipage}\hfill%
+    \begin{minipage}[t]{0.315\linewidth}#2\end{minipage}\hfill%
+    \begin{minipage}[t]{0.315\linewidth}#3\end{minipage}%
+    \par\vspace{6pt}%
+}
+
+% 5. Key-Value Metadata Grid (2 items side by side)
+\newcommand{\keyvaluetwo}[2]{%
+    \par\noindent\vspace{4pt}%
+    \begin{minipage}[t]{0.485\linewidth}#1\end{minipage}\hfill%
+    \begin{minipage}[t]{0.485\linewidth}#2\end{minipage}%
+    \par\vspace{6pt}%
+}
+
+\newcommand{\keyvalueitem}[2]{%
+    \begin{tcolorbox}[
+        enhanced,
+        equal height group=keyvalcards,
+        colback=slate50,
+        colframe=slate300,
+        boxrule=0.5pt,
+        arc=4pt,
+        left=8pt, right=8pt, top=6pt, bottom=6pt,
+    ]
+        {\scriptsize\bfseries\sffamily\color{slate500}\textls[100]{\MakeUppercase{#1}}}\par\vspace{2pt}%
+        {\small\sffamily\color{slate900}#2}%
+    \end{tcolorbox}%
+}
