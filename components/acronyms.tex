@@ -1,0 +1,21 @@
+% components/acronyms.tex
+% Acronym and abbreviation management powered by glossaries-extra.
+
+\RequirePackage[acronym,nomain]{glossaries-extra}
+\setabbreviationstyle[acronym]{long-short}
+
+% Toggles to enable or disable List of Acronyms
+\newif\ifenableacronyms
+\enableacronymstrue
+
+\newcommand{\disableacronyms}{\enableacronymsfalse}
+\newcommand{\enableacronyms}{\enableacronymstrue}
+
+% Render the acronyms page using Charlie's signature unnumbered chapter banner
+\newcommand{\printacronyms}{%
+    \ifenableacronyms
+        \cleardoublepage
+        \phantomsection
+        \printunsrtglossary[type=\acronymtype,title={List of Acronyms}]%
+    \fi
+}

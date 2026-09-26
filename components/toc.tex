@@ -12,13 +12,15 @@
 
 % Chapter Entry: Charlie's signature left-bleeding ribbon badge
 \titlecontents{chapter}[3.2pc]
-{\addvspace{10pt}%
+{\addvspace{10pt}\color{doc!60}\large\scshape\bfseries}
+{% Numbered chapter entry: ribbon badge
     \begin{tikzpicture}[remember picture, overlay]%
         \draw[fill=doc!60,draw=doc!60] (-5,-.1) rectangle (-0.5,.5);%
         \pgftext[right,x=-0.7cm,y=0.2cm]{\color{white}\large\scshape\bfseries Chapter\ \thecontentslabel}%
-    \end{tikzpicture}\color{doc!60}\large\scshape\bfseries}%
-{}
-{}
+    \end{tikzpicture}%
+}
+{% Numberless chapter entry: no ribbon badge
+}
 {\hspace{6pt}\titlerule\hspace{6pt}\large\scshape\bfseries Page \thecontentspage
     \begin{tikzpicture}[remember picture, overlay]
         \draw[fill=doc!60,draw=doc!60] (2pt,0) rectangle (2.5,0.4pt);
@@ -42,21 +44,48 @@
 {\ --- \small\thecontentspage}
 [\ \textbullet\ ][]
 
+% Set default TOC depth to 2 (Chapter, Section, Subsection)
+\setcounter{tocdepth}{2}
+
+% Toggles to enable or disable List of Figures and List of Tables
+\newif\ifenablefigures
+\enablefigurestrue
+
+\newif\ifenabletables
+\enabletablestrue
+
+\newcommand{\disablefigures}{\enablefiguresfalse}
+\newcommand{\enablefigures}{\enablefigurestrue}
+
+\newcommand{\disabletables}{\enabletablesfalse}
+\newcommand{\enabletables}{\enabletablestrue}
+
 % Custom \tableofcontents with Charlie's Signature Header Banner
 \RenewDocumentCommand{\tableofcontents}{}{%
     \cleardoublepage
     \phantomsection
-    \chapter*{%
-        \vspace*{-25\p@}%
-        \begin{tikzpicture}[remember picture, overlay]%
-            \pgftext[right,x=\linewidth,y=0.2cm]{\color{doc!60}\Huge\scshape\bfseries \contentsname}%
-            \draw[fill=doc!60,draw=doc!60] (\linewidth-2.5cm,-.75) rectangle (\linewidth+4.5cm,1);%
-            \clip (\linewidth-2.5cm,-.75) rectangle (\linewidth+4.5cm,1);%
-            \pgftext[right,x=\linewidth,y=0.2cm]{\color{white}\Huge\scshape\bfseries \contentsname}%
-        \end{tikzpicture}%
-    }%
-    \vspace*{15\p@}%
+    \chapter*{\contentsname}%
     \@starttoc{toc}%
+}
+
+% Custom \listoffigures with Charlie's Signature Header Banner & Disable Toggle
+\RenewDocumentCommand{\listoffigures}{}{%
+    \ifenablefigures
+        \cleardoublepage
+        \phantomsection
+        \chapter*{\listfigurename}%
+        \@starttoc{lof}%
+    \fi
+}
+
+% Custom \listoftables with Charlie's Signature Header Banner & Disable Toggle
+\RenewDocumentCommand{\listoftables}{}{%
+    \ifenabletables
+        \cleardoublepage
+        \phantomsection
+        \chapter*{\listtablename}%
+        \@starttoc{lot}%
+    \fi
 }
 
 % Visual Horizontal Outline Divider

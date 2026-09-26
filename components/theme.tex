@@ -121,3 +121,48 @@
 \definecolor{badgenormalbg}{HTML}{F1F5F9}
 \definecolor{badgenormalborder}{HTML}{CBD5E1}
 \definecolor{badgenormaltext}{HTML}{334155}
+
+%==================================================
+% Heading Colors (Customizable via components)
+%==================================================
+
+\colorlet{chaptertitlecolor}{doc}
+\colorlet{chapternumbercolor}{accentsecondary}
+\colorlet{sectiontitlecolor}{doc}
+\colorlet{subsectiontitlecolor}{slate700}
+\colorlet{subsubsectiontitlecolor}{slate700}
+
+% Macros to customize heading colors
+\newcommand{\setchaptercolor}[1]{%
+    \colorlet{chaptertitlecolor}{#1}%
+    \@ifundefined{ChTitleVar}{}{%
+        \ChTitleVar{\bfseries\Large\rmfamily\color{chaptertitlecolor}}%
+    }%
+}
+
+\newcommand{\setchapternumbercolor}[1]{%
+    \colorlet{chapternumbercolor}{#1}%
+    \@ifundefined{ChNameVar}{}{%
+        \ChNameVar{\bfseries\Large\sffamily\color{chapternumbercolor}}%
+        \ChNumVar{\Huge\bfseries\color{chapternumbercolor}}%
+    }%
+}
+
+\newcommand{\setsectioncolor}[1]{%
+    \colorlet{sectiontitlecolor}{#1}%
+}
+
+\newcommand{\setsubsectioncolor}[1]{%
+    \colorlet{subsectiontitlecolor}{#1}%
+}
+
+\newcommand{\setsubsubsectioncolor}[1]{%
+    \colorlet{subsubsectiontitlecolor}{#1}%
+}
+
+\newcommand{\setheadingcolors}[3]{%
+    \setchaptercolor{#1}%
+    \setsectioncolor{#2}%
+    \setsubsectioncolor{#3}%
+}
+

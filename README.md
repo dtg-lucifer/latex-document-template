@@ -31,22 +31,22 @@ Engineered from the ground up for seamless developer ergonomics with **VimTeX** 
 
 ## Visual Demos & Preview Showcase
 
-The master demonstration document compiles cleanly to a 17-page technical and mathematical specification:
+The master demonstration document compiles cleanly to an 18-page technical and mathematical specification:
 
 - 📄 **[Download Demo PDF (`output.pdf`)](output.pdf)**
 
 Below is a complete visual showcase of the compiled pages:
 
-### 1. Executive Cover Page & Outlines
+### 1. Minimalist Cover Page & Outlines
 
-| Executive Cover Page | Table of Contents (Charlie Banner) |
+| Generic Minimalist Cover Page | Table of Contents (Charlie Style Banner) |
 |:---:|:---:|
-| **Page 1: Title, Abstract & Flexible Metadata Card** | **Page 2: Chapter Ribbon Badges & titletoc Formatting** |
+| **Page 1: Title, Subtitle, Authors & Bordered Abstract** | **Page 2: Charlie's Signature Split Header Banner (TOC Depth 2)** |
 | ![Cover Page](assets/preview/demo-page-01.png) | ![Table of Contents](assets/preview/demo-page-02.png) |
 
 | List of Figures | List of Tables |
 |:---:|:---:|
-| **Page 3: Figures Outline** | **Page 4: Tables Outline** |
+| **Page 3: Figures Outline (Charlie Style Banner)** | **Page 4: Tables Outline (Charlie Style Banner)** |
 | ![List of Figures](assets/preview/demo-page-03.png) | ![List of Tables](assets/preview/demo-page-04.png) |
 
 ### 2. Mathematical Foundations & Charlie's Signature Theorems
@@ -96,18 +96,40 @@ Below is a complete visual showcase of the compiled pages:
 | **Page 16: Summary of Theorem Macros & Visual Badges** | **Page 17: Summary of Alert Boxes, Tags & KPI Cards** |
 | ![Theorem Reference](assets/preview/demo-page-16.png) | ![Container Reference](assets/preview/demo-page-17.png) |
 
+### 8. Acronyms & Nomenclature Directory
+
+| List of Acronyms (glossaries-extra) | |
+|:---:|:---:|
+| **Page 18: Clean Acronym Listing (Charlie Style Banner)** | |
+| ![List of Acronyms](assets/preview/demo-page-18.png) | |
+
 ---
 
 ## Overview & Visual Identity
 
 This template bridges the gap between academic mathematical rigor and executive publication standards:
 
+- **Generic Minimalist Cover Page:**
+  - Modeled after the [Typst Math Template](https://github.com/dtg-lucifer/typst-math-template) cover page.
+  - Centered typography: bold title (`\color{doc}`), italic subtitle (`\color{slate500}`), authors, and date.
+  - Horizontally bordered abstract block with top and bottom `0.5pt` rules (`slate300`).
+- **Charlie's Signature Header Banner for Outlines & Front/Back Matter:**
+  - `\tableofcontents`, `\listoffigures`, `\listoftables`, and `\printacronyms` all render with Charlie's signature right-aligned split-color header banner (`doc!60` background rectangle with clipped white text on the right edge).
+- **Glenn Fancy Chapter Headings (`fncychap`):**
+  - Numbered chapters use `\usepackage[Glenn]{fncychap}` with customizable title and number framing colors, stepped horizontal/vertical framing rules, and right-aligned titles.
+- **Toggles to Disable Lists & Acronyms:**
+  - Easily disable unwanted front/back matter with `\disablefigures`, `\disabletables`, or `\disableacronyms` without orphaned spacing or blank pages.
+- **Customizable Heading Colors & TOC Depth:**
+  - Semantic colors (`chaptertitlecolor`, `chapternumbercolor`, `sectiontitlecolor`, etc.).
+  - Setters: `\setchaptercolor{...}`, `\setsectioncolor{...}`, `\setheadingcolors{...}`.
+  - Table of Contents depth set to 2 (`\settocdepth{2}`).
+- **Acronyms & Abbreviations (`glossaries-extra`):**
+  - Instant acronym indexing and rendering via `\printacronyms` with zero external perl/makeglossaries scripts.
 - **Charlie's Signature Theorem Engine:**
   - Cutout tab headers for definitions (`cmtdefinitionthm` style).
   - Sweeping ribbon header banners (`cmtribbonbox` style).
   - Left vertical indicator panels for theorems and corollaries (`cmtleftthm`).
   - Subtle drop shadows with `pgf-blur` and soft slate backgrounds.
-- **Veritas Technical Report Suite:**
   - Executive cover page with organization kicker, metadata grid, and abstract card.
   - KPI metric cards with automatic positive/negative change badges.
   - 4-tier alert system (Info, Warning, Danger, Tip).
@@ -412,23 +434,96 @@ make help
 
 ## Component Reference Guide
 
-### 1. Master Entrypoint & Executive Cover Page
+### 1. Master Entrypoint, Minimalist Cover Page & Heading Customization
 
-Include `prelude.tex` at the top of your document. Configure document metadata using:
+Include `prelude.tex` at the top of your document.
+
+#### Document Metadata & Simple Cover Page
+Configure document metadata cleanly without unnecessary heavy designs:
 
 ```latex
-\title{Document Title}
-\docsubtitle{Subtitle or Kicker}
-\docorganization{ORGANIZATION NAME}
+\title{Generic Document \& Notes\\Template}
+\docsubtitle{Inspired by Charlie's LaTeX Template with Full Math Power}
 \author{Author 1 \and Author 2}
-\docversion{v1.0.0}
-\docdomain{Cloud Systems / Security}
-\docabstract{Executive summary or abstract content goes here.}
-\docfooternote{Confidential $\cdot$ Internal Distribution Only}
 \date{\today}
+\docabstract{Executive summary or abstract content goes here.}
 
 % Inside \begin{document}:
 \rendercoverpage
+```
+
+The cover page features:
+- Centered bold serif title (`\color{doc}`).
+- Subtle italic subtitle (`\color{slate500}`).
+- Author list separated with dots/bullets (`•`).
+- Centered date.
+- Horizontally bordered abstract block framed with thin `0.5pt` rules (`slate300`).
+
+#### Charlie's Signature Header Banner (Contents, Figures, Tables & Acronyms)
+All unnumbered front and back matter headings (`\tableofcontents`, `\listoffigures`, `\listoftables`, and `\printacronyms`) use Charlie's signature header banner:
+- Right-aligned bold small-caps title (`\scshape\bfseries`).
+- A background accent rectangle (`doc!60`) that extends past the right margin.
+- Precise TikZ clipping where text overlapping the rectangle renders in crisp pure white, creating an iconic two-tone split header banner.
+
+#### Glenn Fancy Chapter Headings (`fncychap`)
+Numbered chapters (`\chapter{...}`) use the signature **Glenn** style (`\usepackage[Glenn]{fncychap}`) providing stepped framing rules, custom colors, and right-aligned titles, completely distinct from unnumbered matter.
+
+#### Customizing Heading Colors
+Heading colors can be fully customized at any point in your document using dedicated component macros:
+
+| Macro | Description | Default Color |
+|:---|:---|:---|
+| `\setchaptercolor{<color>}` | Sets chapter title font color | `doc` (Navy) |
+| `\setchapternumbercolor{<color>}` | Sets chapter number and rule framing color | `accentsecondary` (Teal) |
+| `\setsectioncolor{<color>}` | Sets `\section` title color | `doc` (Navy) |
+| `\setsubsectioncolor{<color>}` | Sets `\subsection` title color | `slate700` (Charcoal) |
+| `\setsubsubsectioncolor{<color>}` | Sets `\subsubsection` title color | `slate700` (Charcoal) |
+| `\setheadingcolors{<chap>}{<sec>}{<subsec>}` | Convenience macro setting all primary heading colors | - |
+
+You can also directly override the underlying colorlets:
+```latex
+\colorlet{chaptertitlecolor}{doc}
+\colorlet{chapternumbercolor}{accentsecondary}
+\colorlet{sectiontitlecolor}{doc}
+\colorlet{subsectiontitlecolor}{slate700}
+```
+
+#### Table of Contents Depth
+The default TOC depth is set to `2` (including Chapters, Sections, and Subsections). You can adjust it via:
+```latex
+\settocdepth{2}  % or \setcounter{tocdepth}{2}
+```
+
+#### Disabling or Enabling Lists & Acronyms
+If your document does not require a List of Figures, List of Tables, or Acronyms, you can toggle them off in the preamble or anywhere before they are invoked. When disabled, the command will safely produce no output and will not introduce empty pages or orphan spacing:
+
+| Toggle Command | Re-enable Command | Affected Environment | Default Status |
+|:---|:---|:---|:---|
+| `\disablefigures` | `\enablefigures` | `\listoffigures` | Enabled |
+| `\disabletables` | `\enabletables` | `\listoftables` | Enabled |
+| `\disableacronyms` | `\enableacronyms` | `\printacronyms` | Enabled |
+
+Example usage:
+```latex
+% In your preamble or before \begin{document}:
+\disablefigures    % Suppresses \listoffigures
+\disabletables     % Suppresses \listoftables
+\disableacronyms   % Suppresses \printacronyms
+```
+
+#### Acronyms Page (`glossaries-extra`)
+Acronyms are managed using `glossaries-extra` with zero external build dependencies:
+
+```latex
+% Define acronyms in the preamble or before document:
+\newacronym{kpi}{KPI}{Key Performance Indicator}
+\newacronym{sla}{SLA}{Service Level Agreement}
+
+% Use in text:
+This architecture fulfills our \gls{sla} and improves our primary \gls{kpi}.
+
+% Render the acronyms page at the end of the document:
+\printacronyms
 ```
 
 ### 2. Charlie's Mathematical Theorem Suite

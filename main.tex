@@ -5,8 +5,25 @@
 \input{prelude}
 
 %==================================================
-% Document Metadata Configuration
+% Acronym Definitions (glossaries-extra)
 %==================================================
+\newacronym{kpi}{KPI}{Key Performance Indicator}
+\newacronym{ebpf}{eBPF}{Extended Berkeley Packet Filter}
+\newacronym{raft}{Raft}{Raft Consensus Algorithm}
+\newacronym{posix}{POSIX}{Portable Operating System Interface}
+\newacronym{sla}{SLA}{Service Level Agreement}
+\newacronym{api}{API}{Application Programming Interface}
+\newacronym{bft}{BFT}{Byzantine Fault Tolerance}
+\newacronym{toc}{TOC}{Table of Contents}
+
+% Optional: Customize heading colors anytime via:
+% \setheadingcolors{doc}{accentsecondary}{slate700}
+% \settocdepth{2}
+
+% Optional: Disable list of figures, tables, or acronyms:
+% \disablefigures
+% \disabletables
+% \disableacronyms
 
 \title{Generic Document \& Notes\\Template}
 \docsubtitle{Inspired by Charlie's LaTeX Template with Full Math Power}
@@ -436,5 +453,10 @@ The template includes responsive status chips for real-time telemetry indicators
         \bottomrule
     \end{styledtable}
 \end{table}
+
+%==================================================
+% Acronyms Page (glossaries-extra)
+%==================================================
+\printacronyms
 
 \end{document}

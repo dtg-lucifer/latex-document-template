@@ -27,7 +27,8 @@ all: build previews
 build:
 	@echo -e "$(CYAN)--> Compiling $(MAIN_SRC) with $(ENGINE)...$(RESET)"
 	latexmk -$(ENGINE) -jobname=$(JOBNAME) -synctex=1 -interaction=nonstopmode -file-line-error $(MAIN_SRC)
-	@echo -e "$(GREEN)✓ Compilation finished: $(OUTPUT_PDF)$(RESET)"
+	@cp -f $(OUTPUT_PDF) main.pdf 2>/dev/null || true
+	@echo -e "$(GREEN)✓ Compilation finished: $(OUTPUT_PDF) (synced to main.pdf)$(RESET)"
 
 ## watch: Continuous compilation with live reload for Zathura / VimTeX
 watch:

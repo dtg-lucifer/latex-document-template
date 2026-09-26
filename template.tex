@@ -3,9 +3,33 @@
 
 \RequirePackage[a4paper, top=2.5cm, bottom=2.5cm, left=2.5cm, right=2.5cm, headheight=27pt]{geometry}
 \RequirePackage{fancyhdr}
+\RequirePackage[Glenn]{fncychap}
 \RequirePackage{titlesec}
 \RequirePackage{microtype}
 \RequirePackage{caption}
+
+% Glenn Fancy Chapter Styling with Customizable Colors
+\ChNameVar{\bfseries\Large\sffamily\color{chapternumbercolor}}
+\ChNumVar{\Huge\bfseries\color{chapternumbercolor}}
+\ChTitleVar{\bfseries\Large\rmfamily\color{chaptertitlecolor}}
+\ChRuleWidth{1.2pt}
+
+% Charlie's Signature Header Banner for Unnumbered Chapters (TOC, LOF, LOT, Acronyms)
+\makeatletter
+\def\@makeschapterhead#1{%
+    \vspace*{25\p@}%
+    {\parindent \z@ \raggedright \normalfont
+        \begin{tikzpicture}[remember picture, overlay]%
+            \pgftext[right,x=\linewidth,y=0.2cm]{\color{doc!60}\Huge\scshape\bfseries #1}%
+            \draw[fill=doc!60,draw=doc!60] (\linewidth-2.5cm,-.75) rectangle (\linewidth+4.5cm,1);%
+            \clip (\linewidth-2.5cm,-.75) rectangle (\linewidth+4.5cm,1);%
+            \pgftext[right,x=\linewidth,y=0.2cm]{\color{white}\Huge\scshape\bfseries #1}%
+        \end{tikzpicture}\par
+        \nobreak
+        \vspace*{55\p@}%
+    }%
+}
+\makeatother
 
 %==================================================
 % Hyperref Settings
@@ -53,33 +77,23 @@
 % Section & Chapter Title Typography
 %==================================================
 
-\titleformat{\chapter}[display]
-{\normalfont\huge\bfseries\color{accentprimary}}
-{\filleft\Huge\bfseries\color{accentsecondary!40}CHAPTER \thechapter}
-{1ex}
-{\titlerule[1.5pt]\vspace{1.5ex}\filright}
-[\vspace{1ex}\textcolor{slate300}{\rule{\linewidth}{0.5pt}}]
-
-% Unnumbered chapters (Contents, Outlines, etc.) have no decorative rules
-\titleformat{name=\chapter,numberless}
-{\normalfont\huge\bfseries\color{accentprimary}}
-{}
-{0pt}
-{}
-
-\titlespacing*{name=\chapter,numberless}{0pt}{0pt}{15pt}
+% Chapter formatting is handled above by fncychap [Glenn]
 
 \titleformat{\section}
-{\normalfont\Large\bfseries\color{accentprimary}}
+{\normalfont\Large\bfseries\color{sectiontitlecolor}}
 {\thesection}{1em}{}
 
 \titleformat{\subsection}
-{\normalfont\large\bfseries\color{slate700}}
+{\normalfont\large\bfseries\color{subsectiontitlecolor}}
 {\thesubsection}{1em}{}
 
 \titleformat{\subsubsection}
-{\normalfont\normalsize\bfseries\color{slate700}}
+{\normalfont\normalsize\bfseries\color{subsubsectiontitlecolor}}
 {\thesubsubsection}{1em}{}
+
+% Table of Contents Depth Configuration (depth of 2)
+\setcounter{tocdepth}{2}
+\newcommand{\settocdepth}[1]{\setcounter{tocdepth}{#1}}
 
 % Captions
 \captionsetup{
